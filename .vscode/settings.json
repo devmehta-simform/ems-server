@@ -7,7 +7,7 @@
   "eslint.useFlatConfig": true,
   "eslint.workingDirectories": ["../src"],
   "eslint.options": {
-    "overrideConfigFile": ".eslintrc.json"
+    "overrideConfigFile": "eslint.config.mjs"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.configPath": ".prettierrc.json",
