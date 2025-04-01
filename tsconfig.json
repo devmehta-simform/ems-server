@@ -11,8 +11,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "noEmitOnError": true,
-    "experimentalDecorators": true,
-    "baseUrl": "src/"
+    "experimentalDecorators": true
+    // "baseUrl": "src/"
     // "paths": {
     //   "@mytypes/*": ["types/*"],
     //   "@routes/*": ["routes/*"],

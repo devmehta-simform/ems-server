@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
 const UserLoginDTO = z.object({
-  username: z.string(),
+  email: z.string(),
   password: z.string(),
-  role: z.enum(['ru', 'em', 'es']),
+  role: z.enum(['Guest', 'Host', 'Volunteer']),
 });
 
 export default UserLoginDTO;
