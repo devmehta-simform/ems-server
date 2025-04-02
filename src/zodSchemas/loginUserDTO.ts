@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import UserRegisterDTO from './registerUserDTO';
 
-const UserLoginDTO = z.object({
-  email: z.string(),
-  password: z.string(),
-  role: z.enum(['Guest', 'Host', 'Volunteer']),
+const UserLoginDTO = UserRegisterDTO.pick({
+  email: true,
+  password: true,
+  role: true,
 });
 
 export default UserLoginDTO;

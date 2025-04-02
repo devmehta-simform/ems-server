@@ -9,28 +9,25 @@ function RequestHandlerWrapper(fn: AsyncRequestHandler | RequestHandler): Reques
     try {
       await fn(req, res, next);
       if (!res.headersSent) {
-        next();
+        return next();
       }
     } catch (err: unknown) {
       if (err instanceof ZodError) {
-        next(
-          createHttpError(
-            400,
-            err.issues.map(i => ({
-              field: i.path,
-              code: i.code,
-            }))
-          )
-        );
+        return next(createHttpError(400, err.errors[0].message));
       } else if (err instanceof PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2025':
-            next(createHttpError(404, { ...err.meta }));
+          case 'P2002':
+            next(createHttpError.Conflict(`${err.meta?.modelName} already exists`));
+            break;
+          default:
+            next(createHttpError.InternalServerError(`Something went wrong: ${err.message}`));
         }
       } else if (err instanceof HttpError) {
-        next(createHttpError(err.statusCode, err.message));
+        return next(createHttpError(err.statusCode, err.message));
       } else if (err instanceof Error) {
-        next(createHttpError.InternalServerError(err.message));
+        return next(createHttpError.InternalServerError(err.message));
+      } else {
+        console.error(err);
       }
     }
   };

@@ -2,12 +2,14 @@ import express from 'express';
 import router from './routes/user.route';
 import dotenv from 'dotenv';
 import errorHandler from './utils/errorHandler';
+import morgan from 'morgan';
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+app.use(morgan('tiny'));
 app.use('/user', router);
 app.use(errorHandler);
 
