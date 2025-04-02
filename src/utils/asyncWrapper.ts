@@ -3,6 +3,7 @@ import createHttpError, { HttpError } from 'http-errors';
 import { ZodError } from 'zod';
 import { AsyncRequestHandler } from '../types/types';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 function RequestHandlerWrapper(fn: AsyncRequestHandler | RequestHandler): RequestHandler {
   const fun: RequestHandler = async function (req, res, next) {
@@ -12,7 +13,9 @@ function RequestHandlerWrapper(fn: AsyncRequestHandler | RequestHandler): Reques
         return next();
       }
     } catch (err: unknown) {
-      if (err instanceof ZodError) {
+      if (err instanceof JsonWebTokenError) {
+        return next(createHttpError.BadRequest(err.message));
+      } else if (err instanceof ZodError) {
         return next(createHttpError(400, err.errors[0].message));
       } else if (err instanceof PrismaClientKnownRequestError) {
         switch (err.code) {

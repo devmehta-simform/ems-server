@@ -6,7 +6,6 @@ import UserRegisterDTO from '../zodSchemas/registerUserDTO';
 import { UserRoutes } from '../types/types';
 
 const validate: RequestHandler = RequestHandlerWrapper(function validate(req, res, next) {
-  let result;
   switch (req.url) {
     case UserRoutes.register:
       validateRegister(req.body);
@@ -15,7 +14,6 @@ const validate: RequestHandler = RequestHandlerWrapper(function validate(req, re
       validateLogin(req.body);
       break;
   }
-  return result;
 });
 
 function validateLogin(user: unknown): z.infer<typeof UserLoginDTO> {
