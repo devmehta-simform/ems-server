@@ -4,13 +4,13 @@ import { SuccessResponse } from '../utils/response';
 import prisma from '../utils/prismaProvider';
 import createHttpError from 'http-errors';
 import jwt, { SignOptions } from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export const login: RequestHandler = RequestHandlerWrapper(async function (req, res, next) {
   const userReq = req.body;
   const user = await prisma.user.findUnique({
     where: {
       email: userReq.email,
-      password: userReq.password,
       role: userReq.role,
     },
     select: {
@@ -19,9 +19,12 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
       email: true,
       avatar: true,
       role: true,
+      password: true,
     },
   });
   if (user === null) throw createHttpError.NotFound('user not found');
+  const match = bcrypt.compareSync(userReq.password, user.password);
+  if (!match) throw createHttpError.BadRequest('user password incorrect');
   const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.EXPIRES_IN!) });
   res.cookie('token', token, {
     httpOnly: true,
