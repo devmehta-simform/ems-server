@@ -1,12 +1,12 @@
 import express from 'express';
-import { login } from '../controllers/user.controller';
-import validate from '../validators/user.validator';
-import { register } from '../controllers/user.controller';
-import { UserRoutes } from '../types/types';
+import * as UserService from '../services/user.service';
+import { UserRoutes } from '../types';
+import { validate } from '../middlewares';
+import { UserLoginSchema, UserRegisterSchema } from '../dto';
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router.route(UserRoutes.login).post(validate, login);
-router.route(UserRoutes.register).post(validate, register);
+userRouter.route(UserRoutes.login).post(validate(UserLoginSchema), UserService.login);
+userRouter.route(UserRoutes.register).post(validate(UserRegisterSchema), UserService.register);
 
-export default router;
+export { userRouter };

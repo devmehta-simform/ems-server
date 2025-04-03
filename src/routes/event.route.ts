@@ -1,10 +1,10 @@
 import express from 'express';
-import { EventRoutes, UserRoutes } from '../types/types';
-import auth from '../middlewares/auth';
-import { getEvents } from '../controllers/event.controller';
+import { EventRoutes } from '../types';
+import { auth } from '../middlewares';
+import { getEvents } from '../services/event.service';
 
-const router = express.Router();
+const eventRouter = express.Router();
 
-router.route(EventRoutes.event).get(auth, getEvents);
+eventRouter.route(EventRoutes.event).get(auth, getEvents);
 
-export default router;
+export { eventRouter };

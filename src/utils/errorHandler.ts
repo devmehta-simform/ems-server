@@ -12,4 +12,4 @@ const errorHandler: ErrorRequestHandler = function (err, req, res, next) {
   }
 };
 
-export default errorHandler;
+export { errorHandler };

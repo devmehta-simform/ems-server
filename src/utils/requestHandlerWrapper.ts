@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import createHttpError, { HttpError } from 'http-errors';
 import { ZodError } from 'zod';
-import { AsyncRequestHandler } from '../types/types';
+import { AsyncRequestHandler } from '../types';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JsonWebTokenError } from 'jsonwebtoken';
 
@@ -37,4 +37,4 @@ function RequestHandlerWrapper(fn: AsyncRequestHandler | RequestHandler): Reques
   return fun;
 }
 
-export default RequestHandlerWrapper;
+export { RequestHandlerWrapper };

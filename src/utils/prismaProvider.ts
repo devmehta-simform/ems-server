@@ -14,4 +14,4 @@ const userRegisterExtension = Prisma.defineExtension({
 
 const prisma = new PrismaClient().$extends(userRegisterExtension);
 
-export default prisma;
+export { prisma };

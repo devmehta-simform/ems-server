@@ -1,10 +1,9 @@
 import express from 'express';
-import userRouter from './routes/user.route';
-import eventRouter from './routes/event.route';
+import { userRouter, eventRouter } from './routes';
 import dotenv from 'dotenv';
-import errorHandler from './utils/errorHandler';
+import { errorHandler } from './utils/';
 import morgan from 'morgan';
-import { Routes } from './types/types';
+import { Routes } from './types';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();

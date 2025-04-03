@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
-import RequestHandlerWrapper from '../utils/asyncWrapper';
-import { SuccessResponse } from '../utils/response';
-import prisma from '../utils/prismaProvider';
+import { SuccessResponse } from '../types';
+import { RequestHandlerWrapper, prisma } from '../utils';
 import createHttpError from 'http-errors';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
