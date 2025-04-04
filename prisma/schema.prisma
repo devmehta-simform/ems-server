@@ -39,7 +39,7 @@ model Event {
   description         String
   ticketPrice         Int
   numberOfTickets     Int
-  numberOfTicketsSold Int
+  numberOfTicketsSold Int?
   venue               String
   dateOfEvent         DateTime
   discount            Discount?

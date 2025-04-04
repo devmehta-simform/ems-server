@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+
 const userRegisterExtension = Prisma.defineExtension({
   name: 'registerUser',
   query: {

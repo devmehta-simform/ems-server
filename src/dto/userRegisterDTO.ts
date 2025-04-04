@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { User } from '../models';
 
-const UserRegisterSchema = z.object({
-  name: z.string({ message: 'name required' }),
-  password: z.string({ message: 'password required' }),
-  role: z.enum(['Guest', 'Host', 'Volunteer'], { message: "value should be from ['Guest', 'Host', 'Volunteer']" }),
-  email: z.string({ message: 'email required' }),
+const UserRegisterSchema = User.pick({
+  email: true,
+  name: true,
+  password: true,
+  role: true,
 });
 
 export { UserRegisterSchema };

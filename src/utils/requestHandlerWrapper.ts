@@ -16,11 +16,21 @@ function RequestHandlerWrapper(fn: AsyncRequestHandler | RequestHandler): Reques
       if (err instanceof JsonWebTokenError) {
         return next(createHttpError.BadRequest(err.message));
       } else if (err instanceof ZodError) {
-        return next(createHttpError(400, err.errors[0].message));
+        return next(
+          createHttpError(400, {
+            errors: err.issues.reduce<string[]>((acc, i) => {
+              acc.push(i.message);
+              return acc;
+            }, []),
+          })
+        );
       } else if (err instanceof PrismaClientKnownRequestError) {
         switch (err.code) {
           case 'P2002':
             next(createHttpError.Conflict(`${err.meta?.modelName} already exists`));
+            break;
+          case 'P2025':
+            next(createHttpError.NotFound(`${err.meta?.modelName} doesn't exist`));
             break;
           default:
             next(createHttpError.InternalServerError(`Something went wrong: ${err.message}`));
