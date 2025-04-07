@@ -16,7 +16,7 @@ function RequestHandlerWrapper(fn: AsyncRequestHandler | RequestHandler): Reques
       if (err instanceof JsonWebTokenError) {
         return next(createHttpError.BadRequest(err.message));
       } else if (err instanceof ZodError) {
-        return next(
+        next(
           createHttpError(400, {
             errors: err.issues.reduce<string[]>((acc, i) => {
               acc.push(i.message);

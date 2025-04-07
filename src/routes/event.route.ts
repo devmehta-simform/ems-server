@@ -5,12 +5,12 @@ import { EventCreateSchema, EventUpdateSchema } from '../dto';
 
 const eventRouter = express.Router();
 
-eventRouter.route('/').get(auth, EventService.getEvents).post(auth, validate(EventCreateSchema), EventService.addEvent);
+eventRouter.route('/').get(auth, EventService.getEvents).post(auth('Host'), validate(EventCreateSchema), EventService.createEvent);
 
 eventRouter
-  .route('/:id')
+  .route('/:eventId')
   .get(auth, EventService.getEvent)
-  .patch(auth, validate(EventUpdateSchema), EventService.updateEvent)
-  .delete(auth, EventService.deleteEvent);
+  .patch(auth('Host'), validate(EventUpdateSchema), EventService.updateEvent)
+  .delete(auth('Host'), EventService.deleteEvent);
 
 export { eventRouter };
