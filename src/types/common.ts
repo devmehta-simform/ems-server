@@ -4,6 +4,8 @@ import { type Request, type Response, type NextFunction } from 'express';
 
 type AsyncRequestHandler = (req: Request, res: Response, next: NextFunction) => Promise<Response>;
 
-type UserToken = { id: string; role: z.infer<typeof Roles> };
+const UserTokenSchema = z.object({ id: z.string(), role: Roles });
 
-export { AsyncRequestHandler, UserToken };
+type UserToken = z.infer<typeof UserTokenSchema>;
+
+export { AsyncRequestHandler, UserTokenSchema, UserToken };

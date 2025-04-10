@@ -9,7 +9,7 @@ discountRouter.route('/').post(auth('Host'), validate(DiscountCreateSchema), Dis
 
 discountRouter
   .route('/:discountId')
-  .get(auth, DiscountService.getDiscount)
+  .get(auth(), DiscountService.getDiscount)
   .patch(auth('Host'), validate(DiscountUpdateStatusSchema), DiscountService.updateDiscountStatus);
 
 export { discountRouter };

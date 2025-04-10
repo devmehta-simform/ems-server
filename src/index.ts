@@ -5,12 +5,13 @@ import { errorHandler } from './utils/';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import './utils/zodCustomError';
-import { auth } from './middlewares';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 
+app.use(cors({ origin: ['http://localhost:4200'], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('tiny'));

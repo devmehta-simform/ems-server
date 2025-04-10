@@ -1,6 +1,6 @@
 import { type RequestHandler } from 'express';
 import { RequestHandlerWrapper } from '../utils';
-import { type UserToken } from '../types';
+import { UserTokenSchema } from '../types';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import { z } from 'zod';
@@ -11,7 +11,9 @@ const auth = function (role: z.infer<typeof Roles> | 'All' = 'All') {
     const authCookie = req.cookies['token'];
     if (authCookie) {
       const token = jwt.verify(authCookie, process.env.JWT_SECRET!);
-      req.user = token as UserToken;
+      const isUserToken = UserTokenSchema.safeParse(token);
+      if (!isUserToken.success) throw createHttpError.BadRequest('token is not valid');
+      req.user = isUserToken.data;
       if (role !== 'All' && req.user.role !== role) throw createHttpError.Forbidden();
     } else throw createHttpError.BadRequest('no token provided');
   });
