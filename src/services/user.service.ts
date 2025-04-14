@@ -23,11 +23,11 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
     },
   });
 
-  if (user === null) throw createHttpError.NotFound('user not found');
+  if (user === null) throw createHttpError.NotFound('invalid credentials');
 
   const match = bcrypt.compareSync(userReq.password, user.password);
 
-  if (!match) throw createHttpError.BadRequest('user password incorrect');
+  if (!match) throw createHttpError.BadRequest('invalid credentials');
 
   const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.EXPIRES_IN!) });
 

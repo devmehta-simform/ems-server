@@ -12,10 +12,10 @@ const auth = function (role: z.infer<typeof Roles> | 'All' = 'All') {
     if (authCookie) {
       const token = jwt.verify(authCookie, process.env.JWT_SECRET!);
       const isUserToken = UserTokenSchema.safeParse(token);
-      if (!isUserToken.success) throw createHttpError.BadRequest('token is not valid');
+      if (!isUserToken.success) throw createHttpError.BadRequest('unauthenticated user');
       req.user = isUserToken.data;
       if (role !== 'All' && req.user.role !== role) throw createHttpError.Forbidden();
-    } else throw createHttpError.BadRequest('no token provided');
+    } else throw createHttpError.BadRequest('unauthenticated user');
   });
 };
 

@@ -33,7 +33,7 @@ export const getEvent: RequestHandler = RequestHandlerWrapper(async function (re
   const { eventId } = req.params;
 
   const event = await prisma.event.findUniqueOrThrow({
-    where: { id: eventId, deletedAt: { isSet: false }, userId: req.user.id },
+    where: { id: eventId, deletedAt: { isSet: false } },
   });
 
   return res.status(200).json(new SuccessResponse(event));
