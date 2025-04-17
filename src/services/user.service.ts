@@ -1,6 +1,6 @@
 import { type RequestHandler } from 'express';
 import { SuccessResponse } from '../types';
-import { RequestHandlerWrapper, prisma } from '../utils';
+import { RequestHandlerWrapper, getEnvVars, prisma } from '../utils';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -29,12 +29,19 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
 
   if (!match) throw createHttpError.BadRequest('invalid credentials');
 
-  const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.EXPIRES_IN!) });
+  const defaultSecret = 'defaultSecret';
+  const defaultExpiresIn = '172800';
+
+  const expiresIn = getEnvVars('EXPIRES_IN') || defaultExpiresIn;
+  const jwtSecret = getEnvVars('JWT_SECRET') || defaultSecret;
+  const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, {
+    expiresIn: parseInt(expiresIn),
+  });
 
   res.cookie('token', token, {
     httpOnly: true,
     secure: false,
-    maxAge: parseInt(process.env.EXPIRES_IN!) * 1000,
+    maxAge: parseInt(expiresIn) * 1000,
     path: '/',
   });
 

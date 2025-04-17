@@ -1,15 +1,17 @@
-import { RequestHandlerWrapper } from '../utils';
+import { getEnvVars, RequestHandlerWrapper } from '../utils';
 import { UserTokenSchema } from '../types';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import { z } from 'zod';
 import { Roles } from '../models';
 
+const defaultSecret = 'defaultSecret';
+
 const auth = function (role: z.infer<typeof Roles> | 'All' = 'All') {
   return RequestHandlerWrapper(async function (req, _res, _next) {
     const authCookie = req.cookies['token'];
     if (authCookie) {
-      const token = jwt.verify(authCookie, process.env.JWT_SECRET!);
+      const token = jwt.verify(authCookie, getEnvVars('JWT_SECRET') || defaultSecret);
       const isUserToken = UserTokenSchema.safeParse(token);
       if (!isUserToken.success) throw createHttpError.BadRequest('unauthenticated user');
       req.user = isUserToken.data;
