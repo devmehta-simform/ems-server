@@ -9,7 +9,7 @@ const DiscountSchema = z.object({
   startsAt: z.string().datetime(),
   endsAt: z.string().datetime(),
   status: DiscountStatusSchema,
-  discountAmount: z.number(),
+  discountAmount: z.number().positive(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
   deletedAt: z.string().datetime().nullable(),
