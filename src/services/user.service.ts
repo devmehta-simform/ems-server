@@ -1,5 +1,5 @@
 import { type RequestHandler } from 'express';
-import { SuccessResponse } from '../types';
+import { CustomError, SuccessResponse } from '../types';
 import { RequestHandlerWrapper, getEnvVars, prisma } from '../utils';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
@@ -23,11 +23,11 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
     },
   });
 
-  if (user === null) throw createHttpError.NotFound('invalid credentials');
+  if (user === null) throw createHttpError.NotFound(CustomError.INVALID_CREDENTIALS);
 
   const match = bcrypt.compareSync(userReq.password, user.password);
 
-  if (!match) throw createHttpError.BadRequest('invalid credentials');
+  if (!match) throw createHttpError.BadRequest(CustomError.INVALID_CREDENTIALS);
 
   const defaultSecret = 'defaultSecret';
   const defaultExpiresIn = '172800';

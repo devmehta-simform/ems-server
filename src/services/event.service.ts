@@ -26,7 +26,7 @@ export const deleteEvent: RequestHandler = RequestHandlerWrapper(async function 
     },
   });
 
-  return res.status(200).json(new SuccessResponse('deleted successfully'));
+  return res.status(204).json();
 });
 
 export const getEvent: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {

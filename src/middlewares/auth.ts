@@ -1,5 +1,5 @@
 import { getEnvVars, RequestHandlerWrapper } from '../utils';
-import { UserTokenSchema } from '../types';
+import { CustomError, UserTokenSchema } from '../types';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import { z } from 'zod';
@@ -13,10 +13,10 @@ const auth = function (role: z.infer<typeof RolesSchema> | 'All' = 'All') {
     if (authCookie) {
       const token = jwt.verify(authCookie, getEnvVars('JWT_SECRET') || defaultSecret);
       const isUserToken = UserTokenSchema.safeParse(token);
-      if (!isUserToken.success) throw createHttpError.BadRequest('unauthenticated user');
+      if (!isUserToken.success) throw createHttpError.BadRequest(CustomError.UNAUTHENTICATED_USER);
       req.user = isUserToken.data;
       if (role !== 'All' && req.user.role !== role) throw createHttpError.Forbidden();
-    } else throw createHttpError.BadRequest('unauthenticated user');
+    } else throw createHttpError.BadRequest(CustomError.UNAUTHENTICATED_USER);
   });
 };
 
