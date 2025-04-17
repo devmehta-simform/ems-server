@@ -10,7 +10,8 @@ const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
   if (issue.code === z.ZodIssueCode.custom) {
     return { message: `less-than-${(issue.params || {}).minimum}` };
   }
-  if (issue.code === z.ZodIssueCode.invalid_union) {
+  if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+    console.log(issue.path);
     return {
       message: `Error: In ${issue.path.join(', ')} None of the union types matched`,
     };
