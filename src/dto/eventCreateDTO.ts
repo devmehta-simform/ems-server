@@ -1,6 +1,6 @@
-import { Event } from '../models';
+import { EventSchema } from '../schemas';
 
-const EventCreateSchema = Event.pick({
+const EventCreateSchema = EventSchema.pick({
   dateOfEvent: true,
   name: true,
   numberOfTickets: true,
@@ -8,6 +8,7 @@ const EventCreateSchema = Event.pick({
   ticketPrice: true,
   venue: true,
   images: true,
+  isActive: true,
 });
 
 export { EventCreateSchema };

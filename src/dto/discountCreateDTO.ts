@@ -1,6 +1,6 @@
-import { Discount } from '../models';
+import { DiscountSchema } from '../schemas';
 
-const DiscountCreateSchema = Discount.omit({
+const DiscountCreateSchema = DiscountSchema.omit({
   id: true,
 });
 

@@ -3,11 +3,11 @@ import { UserTokenSchema } from '../types';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import { z } from 'zod';
-import { Roles } from '../models';
+import { RolesSchema } from '../schemas';
 
 const defaultSecret = 'defaultSecret';
 
-const auth = function (role: z.infer<typeof Roles> | 'All' = 'All') {
+const auth = function (role: z.infer<typeof RolesSchema> | 'All' = 'All') {
   return RequestHandlerWrapper(async function (req, _res, _next) {
     const authCookie = req.cookies['token'];
     if (authCookie) {

@@ -1,5 +1,5 @@
-import { Event } from '../models';
+import { EventSchema } from '../schemas';
 
-const EventUpdateSchema = Event.partial();
+const EventUpdateSchema = EventSchema.partial();
 
 export { EventUpdateSchema };

@@ -45,6 +45,7 @@ model Event {
   discount            Discount?
   purchaseHistory     PurchaseHistory[]
   reviews             Review[]
+  isActive            Boolean
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @default(now())
   deletedAt           DateTime?
@@ -58,6 +59,9 @@ model Discount {
   endsAt         DateTime
   status         DiscountStatus
   discountAmount Int
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now())
+  deletedAt      DateTime?
 }
 
 model PurchaseHistory {
@@ -70,12 +74,16 @@ model PurchaseHistory {
   bookingDate DateTime      @default(now())
   qrCode      String
   transaction Transaction[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  deletedAt   DateTime?
 }
 
 model Review {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   review    String
   rating    Rating
+  ratingVal Int
   user      User      @relation(fields: [userId], references: [id])
   userId    String    @db.ObjectId
   event     Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
@@ -93,6 +101,9 @@ model Transaction {
   amount            Int
   status            TransactionStatus
   paymentMethod     String
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now())
+  deletedAt         DateTime?
 }
 
 enum Rating {
