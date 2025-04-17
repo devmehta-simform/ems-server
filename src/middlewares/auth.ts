@@ -1,4 +1,3 @@
-import { type RequestHandler } from 'express';
 import { RequestHandlerWrapper } from '../utils';
 import { UserTokenSchema } from '../types';
 import jwt from 'jsonwebtoken';
@@ -7,7 +6,7 @@ import { z } from 'zod';
 import { Roles } from '../models';
 
 const auth = function (role: z.infer<typeof Roles> | 'All' = 'All') {
-  return RequestHandlerWrapper(async function (req, res, next) {
+  return RequestHandlerWrapper(async function (req, _res, _next) {
     const authCookie = req.cookies['token'];
     if (authCookie) {
       const token = jwt.verify(authCookie, process.env.JWT_SECRET!);

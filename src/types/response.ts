@@ -1,5 +1,8 @@
 class SuccessResponse {
-  constructor(public data: unknown) {}
+  public data: unknown;
+  constructor(data: unknown) {
+    this.data = data;
+  }
 }
 
 export { SuccessResponse };

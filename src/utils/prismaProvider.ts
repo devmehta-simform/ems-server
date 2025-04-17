@@ -5,7 +5,7 @@ const userRegisterExtension = Prisma.defineExtension({
   name: 'registerUser',
   query: {
     user: {
-      async create({ model, operation, args, query }) {
+      async create({ model: _model, operation: _operation, args, query }) {
         args.data.password = bcrypt.hashSync(args.data.password, bcrypt.genSaltSync(10));
         return query(args);
       },

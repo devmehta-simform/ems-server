@@ -5,7 +5,7 @@ import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-export const login: RequestHandler = RequestHandlerWrapper(async function (req, res, next) {
+export const login: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {
   const userReq = req.body;
 
   const user = await prisma.user.findUnique({
@@ -41,7 +41,7 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
   return res.status(200).json(new SuccessResponse({ user }));
 });
 
-export const register: RequestHandler = RequestHandlerWrapper(async function (req, res, next) {
+export const register: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {
   const user = await prisma.user.create({ data: req.body });
   return res.status(201).json(new SuccessResponse(user));
 });
