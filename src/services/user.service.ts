@@ -12,6 +12,8 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
     where: {
       email: userReq.email,
       role: userReq.role,
+      isActive: true,
+      deletedAt: { isSet: false },
     },
     select: {
       id: true,
