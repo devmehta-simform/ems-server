@@ -11,6 +11,11 @@ export const createDiscount: RequestHandler = RequestHandlerWrapper(async functi
       status: req.body.status,
       eventId: req.body.eventId,
     },
+    omit: {
+      createdAt: true,
+      updatedAt: true,
+      deletedAt: true,
+    },
   });
   return res.status(201).json(new SuccessResponse(discount));
 });
@@ -22,12 +27,17 @@ export const getDiscount: RequestHandler = RequestHandlerWrapper(async function 
       status: { notIn: ['InActive'] },
       deletedAt: { isSet: false },
     },
+    omit: {
+      createdAt: true,
+      updatedAt: true,
+      deletedAt: true,
+    },
   });
   return res.status(200).json(new SuccessResponse(discount));
 });
 
 export const updateDiscountStatus: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {
-  const discount = await prisma.discount.update({
+  await prisma.discount.update({
     where: {
       id: req.params.discountId,
       status: { notIn: ['InActive'] },
@@ -37,5 +47,5 @@ export const updateDiscountStatus: RequestHandler = RequestHandlerWrapper(async 
       status: req.body.status,
     },
   });
-  return res.status(200).json(new SuccessResponse(discount));
+  return res.status(204).json();
 });

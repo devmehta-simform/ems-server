@@ -51,6 +51,13 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
 });
 
 export const register: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {
-  const user = await prisma.user.create({ data: req.body });
+  const user = await prisma.user.create({
+    data: req.body,
+    select: {
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
   return res.status(201).json(new SuccessResponse(user));
 });
