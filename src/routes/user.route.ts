@@ -7,5 +7,6 @@ const userRouter = express.Router();
 
 userRouter.route('/login').post(validate(UserLoginSchema), UserService.login);
 userRouter.route('/register').post(validate(UserRegisterSchema), UserService.register);
+userRouter.route('/logout').post(UserService.logout);
 
 export { userRouter };

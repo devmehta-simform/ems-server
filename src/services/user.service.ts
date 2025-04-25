@@ -61,3 +61,8 @@ export const register: RequestHandler = RequestHandlerWrapper(async function (re
   });
   return res.status(201).json(new SuccessResponse(user));
 });
+
+export const logout: RequestHandler = RequestHandlerWrapper(async (req, res, _next) => {
+  res.clearCookie('token');
+  return res.end();
+});
