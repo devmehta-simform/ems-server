@@ -1,4 +1,4 @@
-import { EventSchema } from '../schemas';
+import { EventSchema } from '../models';
 
 const EventCreateSchema = EventSchema.pick({
   dateOfEvent: true,

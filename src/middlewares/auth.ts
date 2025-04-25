@@ -3,7 +3,7 @@ import { CustomError, UserTokenSchema } from '../types';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import { z } from 'zod';
-import { RolesSchema } from '../schemas';
+import { RolesSchema } from '../models';
 
 const defaultSecret = 'defaultSecret';
 

@@ -1,4 +1,4 @@
-import { DiscountSchema } from '../schemas';
+import { DiscountSchema } from '../models';
 
 const DiscountCreateSchema = DiscountSchema.omit({
   id: true,

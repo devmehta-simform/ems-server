@@ -1,4 +1,4 @@
-import { UserSchema } from '../schemas';
+import { UserSchema } from '../models';
 
 const UserRegisterSchema = UserSchema.pick({
   email: true,

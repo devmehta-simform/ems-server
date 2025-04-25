@@ -12,8 +12,10 @@ export const getEvents: RequestHandler = RequestHandlerWrapper(async function (_
       images: true,
       ticketPrice: true,
       createdAt: true,
+      reviews: true,
+      id: true,
     },
-    include: { discount: true },
+    // include: { discount: true },
   });
   return res.status(200).json(new SuccessResponse(events));
 });
@@ -59,7 +61,7 @@ export const getEvent: RequestHandler = RequestHandlerWrapper(async function (re
       updatedAt: true,
       deletedAt: true,
     },
-    include: { discount: true },
+    // include: { discount: true },
   });
 
   return res.status(200).json(new SuccessResponse(event));
