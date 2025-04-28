@@ -47,7 +47,7 @@ export const login: RequestHandler = RequestHandlerWrapper(async function (req, 
     path: '/',
   });
 
-  return res.status(200).json(new SuccessResponse({ user }));
+  return res.status(200).json(new SuccessResponse({ ...user, password: undefined }));
 });
 
 export const register: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {
