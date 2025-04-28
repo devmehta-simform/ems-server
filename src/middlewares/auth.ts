@@ -13,10 +13,10 @@ const auth = function (role: z.infer<typeof RolesSchema> | 'All' = 'All') {
     if (authCookie) {
       const token = jwt.verify(authCookie, getEnvVars('JWT_SECRET') || defaultSecret);
       const isUserToken = UserTokenSchema.safeParse(token);
-      if (!isUserToken.success) throw createHttpError.BadRequest(CustomError.UNAUTHENTICATED_USER);
+      if (!isUserToken.success) throw createHttpError.Unauthorized(CustomError.UNAUTHENTICATED_USER);
       req.user = isUserToken.data;
       if (role !== 'All' && req.user.role !== role) throw createHttpError.Forbidden();
-    } else throw createHttpError.BadRequest(CustomError.UNAUTHENTICATED_USER);
+    } else throw createHttpError.Unauthorized(CustomError.UNAUTHENTICATED_USER);
   });
 };
 
