@@ -18,6 +18,8 @@ const EventSchema = z.object({
   review: ReviewSchema.optional(),
   purchaseHistory: PurchaseHistorySchema.optional(),
   isActive: z.boolean(),
+  startTime: z.string().datetime(),
+  endTime: z.string().datetime(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
   deletedAt: z.string().datetime().nullable(),

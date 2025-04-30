@@ -9,6 +9,8 @@ const EventCreateSchema = EventSchema.pick({
   venue: true,
   images: true,
   isActive: true,
+  startTime: true,
+  endTime: true,
 });
 
 export { EventCreateSchema };

@@ -46,6 +46,8 @@ model Event {
   purchaseHistory     PurchaseHistory[]
   reviews             Review[]
   isActive            Boolean
+  startTime           DateTime
+  endTime             DateTime
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @default(now())
   deletedAt           DateTime?
