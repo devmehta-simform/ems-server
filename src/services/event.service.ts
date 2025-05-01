@@ -7,7 +7,12 @@ export const getEvents: RequestHandler = RequestHandlerWrapper(async function (_
     where: { deletedAt: { isSet: false } },
     select: {
       name: true,
-      venue: true,
+      address: true,
+      city: true,
+      state: true,
+      country: true,
+      zipcode: true,
+      coverImage: true,
       dateOfEvent: true,
       images: true,
       ticketPrice: true,

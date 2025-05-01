@@ -35,12 +35,17 @@ model Event {
   userId              String            @db.ObjectId
   user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   images              String[]          @default([])
+  coverImage          String            @default("")
   name                String
   description         String
   ticketPrice         Int
   numberOfTickets     Int
   numberOfTicketsSold Int?
-  venue               String
+  address             String
+  zipcode             String
+  city                String
+  state               String
+  country             String
   dateOfEvent         DateTime
   discount            Discount?
   purchaseHistory     PurchaseHistory[]
