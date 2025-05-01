@@ -30,7 +30,7 @@ export const createEvent: RequestHandler = RequestHandlerWrapper(async function 
   const user = req.user;
 
   const event = await prisma.event.create({
-    data: { ...eventReq, userId: user.id },
+    data: { ...eventReq, userId: user.id, isActive: true },
     omit: {
       createdAt: true,
       updatedAt: true,

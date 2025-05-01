@@ -13,7 +13,6 @@ const EventCreateSchema = EventSchema.pick({
   zipcode: true,
   coverImage: true,
   images: true,
-  isActive: true,
   startTime: true,
   endTime: true,
 });
