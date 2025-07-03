@@ -1,5 +1,5 @@
 import express from 'express';
-import { userRouter, eventRouter, discountRouter } from './routes';
+import { userRouter, eventRouter, discountRouter, qrRouter, ticketRouter } from './routes';
 import { errorHandler, getEnvVars } from './utils/';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
@@ -15,6 +15,8 @@ app.use(morgan('tiny'));
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/discount', discountRouter);
+app.use('/qr', qrRouter);
+app.use('/ticket', ticketRouter);
 app.use(errorHandler);
 
 const defaultPort = 5000;
