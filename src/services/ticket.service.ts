@@ -4,7 +4,8 @@ import createHttpError from 'http-errors';
 
 export const createTicket = RequestHandlerWrapper(async function (req, res, _next) {
   const { qrCode, userId, eventId } = req.body;
-
+  const qty = req.query['qty'] ? parseInt(req.query['qty'].toString()) : 0;
+  console.log(qty);
   const result = await prisma.$transaction(async tx => {
     const event = await tx.event.findUnique({
       where: { id: eventId, deletedAt: { isSet: false } },
@@ -15,9 +16,12 @@ export const createTicket = RequestHandlerWrapper(async function (req, res, _nex
     if (sold >= event.numberOfTickets) {
       throw createHttpError.Conflict('All tickets are sold out');
     }
+    if (sold + qty >= event.numberOfTickets) {
+      throw createHttpError.Conflict('Cannot purchase more tickets than available');
+    }
     await tx.event.update({
       where: { id: eventId, deletedAt: { isSet: false } },
-      data: { numberOfTicketsSold: sold + 1 },
+      data: { numberOfTicketsSold: sold + qty },
     });
     // Create the ticket
     const ticket = await tx.purchaseHistory.create({
@@ -31,8 +35,9 @@ export const createTicket = RequestHandlerWrapper(async function (req, res, _nex
 
 export const getAllTicketsForUser = RequestHandlerWrapper(async function (req, res, _next) {
   const userId = req.params['userId'];
+  const searchQuery = req.query['searchQuery']?.toString() || '';
   const tickets = await prisma.purchaseHistory.findMany({
-    where: { userId, deletedAt: { isSet: false } },
+    where: { userId, deletedAt: { isSet: false }, event: { name: { contains: searchQuery } } },
     include: { event: { omit: { isActive: true, updatedAt: true, deletedAt: true } } },
     omit: { deletedAt: true, updatedAt: true, createdAt: true },
   });
