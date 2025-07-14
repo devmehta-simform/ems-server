@@ -2,9 +2,15 @@ import { type RequestHandler } from 'express';
 import { SuccessResponse } from '../types';
 import { RequestHandlerWrapper, prisma } from '../utils';
 
-export const getEvents: RequestHandler = RequestHandlerWrapper(async function (_req, res, _next) {
+export const getEvents: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {
+  const searchQuery = req.query['searchQuery']?.toString();
   const events = await prisma.event.findMany({
-    where: { deletedAt: { isSet: false } },
+    where: {
+      deletedAt: { isSet: false },
+      name: {
+        contains: searchQuery,
+      },
+    },
     select: {
       name: true,
       address: true,
