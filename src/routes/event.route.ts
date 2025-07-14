@@ -8,6 +8,8 @@ const eventRouter = express.Router();
 
 eventRouter.route('/').get(auth(), EventService.getEvents).post(auth(RolesEnum['Host']), validate(EventCreateSchema), EventService.createEvent);
 
+eventRouter.route('/my').get(auth(RolesEnum['Host']), EventService.getEventsForUser);
+
 eventRouter
   .route('/:eventId')
   .get(auth(), EventService.getEvent)

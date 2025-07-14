@@ -87,3 +87,30 @@ export const updateEvent: RequestHandler = RequestHandlerWrapper(async function 
 
   return res.status(204).json();
 });
+
+export const getEventsForUser: RequestHandler = RequestHandlerWrapper(async function (req, res, _next) {
+  const user = req.user;
+  console.log(user);
+  const events = await prisma.event.findMany({
+    where: {
+      deletedAt: { isSet: false },
+      userId: user.id,
+    },
+    select: {
+      name: true,
+      address: true,
+      city: true,
+      state: true,
+      country: true,
+      zipcode: true,
+      coverImage: true,
+      dateOfEvent: true,
+      ticketPrice: true,
+      createdAt: true,
+      reviews: true,
+      id: true,
+    },
+    // include: { discount: true },
+  });
+  return res.status(200).json(new SuccessResponse(events));
+});
